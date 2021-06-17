@@ -7,9 +7,53 @@
 
 {% block css_files %}
 <link rel="stylesheet" href="{% static 'blog/post-detail.css' %}" />
+<style>
+    .errorlist {
+        list-style-type: none;
+        margin: 0.5rem 0;
+        padding: 0;
+        color: #e40619;
+    }
+
+    .invalid label {
+        color: #e40619;
+    }
+
+    .invalid input,
+    .invalid textarea {
+        border-color: #e40619;
+        background-color: #ffe6e7;
+    }
+
+    #alert {
+        margin: 8rem auto 3rem auto;
+        border: 1px solid #e40619;
+        background-color: #ffe6e7;
+        padding: 1rem;
+        width: 90%;
+        max-width: 40rem;
+    }
+
+    #alert a {
+        text-decoration: none;
+        border: 1px solid #d6000b;
+        background-color: #d6000b;
+        color: white;
+        padding: 0.25rem 1.5rem;
+        border-radius: 6px;
+    }
+</style>
 {% endblock css_files %}
 
 {% block content %}
+
+{% if comment_form.errors %}
+<div id="alert">
+    <h2>Saving the Comment Failed</h2>
+    <p>Please check the comment form below and fix your errors!</p>
+    <a href="#comment-form">Fix!</a>
+</div>
+{% endif %}
 
 <section id="summary">
     <h2>{{post.title}}</h2>
@@ -37,7 +81,7 @@
         {% csrf_token %}
 
         {% for form_field in comment_form %}
-        <div class="form-control">
+        <div class="form-control {% if form_field.errors %}invalid{% endif %}">
             {{form_field.label}}
             {{form_field}}
             {{form_field.errors}}
