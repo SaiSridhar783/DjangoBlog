@@ -72,6 +72,25 @@
         border-bottom: none;
     }
 </style>
+<style>
+    #read-later {
+        margin: 2rem 0;
+    }
+
+    #read-later button {
+        background-color: transparent;
+        border: 1px solid white;
+        padding: 0.5rem 2rem;
+        font: inherit;
+        color: white;
+    }
+
+    #read-later button:hover,
+    #read-later button:active {
+        background-color: white;
+        color: #390281;
+    }
+</style>
 {% endblock css_files %}
 
 {% block content %}
@@ -90,6 +109,13 @@
         {% for tag in post_tags %}
         <span class="tag">{{tag.caption}}</span>
         {% endfor %}
+    </div>
+    <div id="read-later">
+        <form action="{% url 'read-later' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="post_id" value="{{post.id}}">
+            <button>Read Later</button>
+        </form>
     </div>
     <article>
         <img src="{{ post.image.url }}" alt="{{post.title}}" />
