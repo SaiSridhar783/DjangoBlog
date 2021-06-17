@@ -37,7 +37,7 @@ class SinglePostView(View):
             "post": post,
             "post_tags": post.tags.all(),
             "comment_form": CommentForm(),
-            "comments": post.comments.all()
+            "comments": post.comments.all().order_by("-id")
         }
         return render(request, "blog/post-detail.html", context)
 
@@ -56,6 +56,6 @@ class SinglePostView(View):
             "post": post,
             "post_tags": post.tags.all(),
             "comment_form": comment_form,
-            "comments": post.comments.all()
+            "comments": post.comments.all().order_by("-id")
         }
         return render(request, "blog/post-detail.html", context)
